@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+  font-family: var(--font-interstate);
+}
+
+*::-webkit-scrollbar:not(.sidebar-scroll-none) {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #78716c;
+  border-radius: 20px;
+}
+
+/* Header background image */
+.bg-home {
+  background: url("../../public/images/house.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+/* Side bar scroll */
+.sidebar-emailBox-style span {
+  width: 100%;
+  background: linear-gradient(to right, #000000 90%, transparent 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  overflow: auto;
+}
+
+.sidebar-emailBox-style span::-webkit-scrollbar {
+  height: 0;
+}
+
+/* Home category icon gradient  */
+.bg-category-gradiant {
+  background: linear-gradient(to right, #f5f5f4 10%, #e7e5e4 50%);
+}
