@@ -13,7 +13,7 @@ import { HiChevronRight } from "react-icons/hi";
 import { GoHourglass } from "react-icons/go";
 
 // hooks
-import useScreenWidth from "@/hooks/useScreenWidth";
+import useScreenWidth from "../../hooks/useScreenWidth";
 
 interface IProps {
   email: string;
