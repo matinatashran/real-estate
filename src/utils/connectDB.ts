@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 // enums
-import { MONGO } from "../../enum/mongo.enum";
+import { MONGO } from "@/enum/mongo.enum";
 
 async function connectDB() {
   if (mongoose.connections[0].readyState) return;
