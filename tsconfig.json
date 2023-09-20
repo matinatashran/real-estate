@@ -27,6 +27,7 @@
       "@/utils/*": ["src/utils/*"],
       "@/styles/*": ["src/styles/*"],
       "@/hooks/*": ["src/hooks/*"],
+      "@/enum/*": ["src/enum/*"],
       "@/api/*": ["src/app/api/*"],
       "@/layout/*": ["src/components/layout/*"],
       "@/element/*": ["src/components/element/*"],
