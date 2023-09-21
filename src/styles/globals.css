@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-h1 {
-  font-family: var(--font-interstate);
-}
-
 *::-webkit-scrollbar:not(.sidebar-scroll-none) {
   width: 5px;
 }
@@ -13,6 +9,14 @@ h1 {
 *::-webkit-scrollbar-thumb {
   background-color: #78716c;
   border-radius: 20px;
+}
+
+h1 {
+  font-family: var(--font-interstate);
+}
+
+input {
+  touch-action: manipulation;
 }
 
 /* Header background image */
