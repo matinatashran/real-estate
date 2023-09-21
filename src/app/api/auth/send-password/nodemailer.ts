@@ -1,6 +1,10 @@
+// ./
 import nodemailer from "nodemailer";
 
-const { EMAIL, EMAIL_PASS } = process.env;
+// enum
+import { EMAIL_OPTIONS } from "@/enum/email.enum";
+
+const { EMAIL, EMAIL_PASS } = EMAIL_OPTIONS;
 
 function getMailData(sendTo: string) {
   const transporter = nodemailer.createTransport({

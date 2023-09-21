@@ -9,7 +9,7 @@ const HomeCategory = () => {
       <span className="bg-black text-stone-100 py-2 px-4 rounded-full text-xl md:text-2xl font-bold">
         Category
       </span>
-      <div className="w-full flex justify-center md:justify-between flex-wrap gap-5 border-l-[3px] border-black mx-5 p-5 pr-10">
+      <div className="w-[94%] ml-5 md:w-full md:mx-5 flex justify-center md:justify-between flex-wrap gap-5 border-l-[3px] border-black p-5 pr-10">
         <HomeCategoryIcon title="Villa" IconElement={MdVilla} />
         <HomeCategoryIcon title="Apartment" IconElement={MdOutlineApartment} />
         <HomeCategoryIcon title="Shop" IconElement={FaStore} />

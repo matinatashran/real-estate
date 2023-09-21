@@ -66,8 +66,8 @@ const DashboardPage = ({ data }: IProps) => {
   return (
     <div className="w-[90%] md:w-[85%] mx-auto flex flex-col items-center gap-5 lg:gap-16 p-5 lg:p-16 bg-stone-100 rounded-2xl">
       <div className="relative w-full min-h-[300px] lg:min-h-[250px] rounded-2xl bg-white">
-        <div className="absolute top-1/2 -mt-28 lg:-mt-24 -left-10 w-36 h-36 lg:w-48 lg:h-48 rounded-full bg-stone-100 flex justify-center items-center">
-          <HiUser className="w-24 h-24 lg:w-32 lg:h-32 text-stone-400" />
+        <div className="absolute top-1/2 -mt-24 lg:-mt-[5.5rem] left-5 w-32 h-32 lg:w-44 lg:h-44 rounded-full bg-stone-100 flex justify-center items-center">
+          <HiUser className="w-20 h-20 lg:w-28 lg:h-28 text-stone-400" />
         </div>
         <div className="lg:ml-36 h-full flex flex-col justify-between py-8 px-5">
           <div className="flex justify-end">

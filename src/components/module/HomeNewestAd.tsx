@@ -42,7 +42,7 @@ const HomeNewestAd = ({ data }: IProps) => {
       <span className="bg-black text-stone-100 py-2 px-4 rounded-full text-xl md:text-2xl font-bold">
         Newest
       </span>
-      <div className="relative w-full border-l-[3px] border-black mx-5 p-5 pr-10">
+      <div className="relative w-[94%] ml-5 md:w-full md:mx-5 border-l-[3px] border-black p-5">
         <Swiper
           modules={[Pagination, Navigation, Autoplay, FreeMode]}
           slidesPerView={1}
