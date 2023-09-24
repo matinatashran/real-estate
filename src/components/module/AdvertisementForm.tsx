@@ -16,6 +16,7 @@ import Button from "@/element/Button";
 import { notify } from "@/utils/notify";
 import { validation } from "@/utils/validation";
 import { rsp } from "@/utils/replaceNumber";
+import ReqAccessPolicy from "@/utils/ReqAccessPolicy";
 
 type ApiMehtodType = "POST" | "PATCH";
 interface IFormProps {
@@ -109,7 +110,7 @@ const AdvertisementForm = ({
         tagDescription,
         author,
       }),
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...ReqAccessPolicy },
     });
     setIsPending(false);
     const data = await res.json();

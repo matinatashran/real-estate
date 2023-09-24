@@ -7,6 +7,7 @@ import { AiFillEdit } from "react-icons/ai";
 // utils
 import { confirmDelete } from "@/utils/Confirmation";
 import { notify } from "@/utils/notify";
+import ReqAccessPolicy from "@/utils/ReqAccessPolicy";
 
 interface IProps {
   id: string;
@@ -21,7 +22,12 @@ const AdCardTopButtons = ({ id }: IProps) => {
     if (isConfirmed) {
       const res = await fetch(
         `http://localhost:3000/api/profile/delete/${id}`,
-        { method: "DELETE" }
+        {
+          method: "DELETE",
+          headers: {
+            ...ReqAccessPolicy,
+          },
+        }
       );
 
       const data = await res.json();
