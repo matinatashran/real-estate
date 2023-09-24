@@ -9,19 +9,7 @@ import { notify } from "@/utils/notify";
 
 // element
 import ForgetPassForm from "@/module/ForgetPassForm";
-import ChangePassForm from "@/module/ChangePassForm";
-
-export const sendPassword = async (email: string) => {
-  const res = await fetch("/api/auth/send-password", {
-    method: "POST",
-    body: JSON.stringify({
-      email,
-    }),
-    headers: { "Content-Type": "application/json" },
-  });
-
-  return await res.json();
-};
+import ChangePassForm from "@/module/ChangePassForm"
 
 const ForgetPasswordPage = () => {
   const router = useRouter();
@@ -43,7 +31,7 @@ const ForgetPasswordPage = () => {
       notify(emptyErr || emailErr, "error");
     } else {
       setIsPending(true);
-      const res = await fetch("http://localhost:3000/api/auth/send-password", {
+      const res = await fetch("/api/auth/send-password", {
         method: "POST",
         body: JSON.stringify({
           email,
@@ -88,7 +76,7 @@ const ForgetPasswordPage = () => {
     } else {
       setIsPending(true);
       const res = await fetch(
-        "http://localhost:3000/api/auth/change-password",
+        "/api/auth/change-password",
         {
           method: "PATCH",
           body: JSON.stringify({
