@@ -12,7 +12,7 @@ import ForgetPassForm from "@/module/ForgetPassForm";
 import ChangePassForm from "@/module/ChangePassForm";
 
 export const sendPassword = async (email: string) => {
-  const res = await fetch("http://localhost:3000/api/auth/send-password", {
+  const res = await fetch("/api/auth/send-password", {
     method: "POST",
     body: JSON.stringify({
       email,

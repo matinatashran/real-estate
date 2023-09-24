@@ -26,10 +26,9 @@ const AdminCardButtons = ({ id }: IProps) => {
     const isConfirmed = await confirmDelete("Are you sure you want to delete?");
     if (isConfirmed) {
       setIsPendingDelete(true);
-      const res = await fetch(
-        `http://localhost:3000/api/profile/delete/${id}`,
-        { method: "DELETE" }
-      );
+      const res = await fetch(`/api/profile/delete/${id}`, {
+        method: "DELETE",
+      });
 
       setIsPendingDelete(false);
       const data = await res.json();
@@ -44,7 +43,7 @@ const AdminCardButtons = ({ id }: IProps) => {
 
   const publishHandler = async () => {
     setIsPendingPublish(true);
-    const res = await fetch(`http://localhost:3000/api/profile/publish/${id}`, {
+    const res = await fetch(`/api/profile/publish/${id}`, {
       method: "PATCH",
     });
 

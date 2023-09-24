@@ -19,12 +19,9 @@ const AdCardTopButtons = ({ id }: IProps) => {
   const deleteHandler = async () => {
     const isConfirmed = await confirmDelete("Are you sure you want to delete?");
     if (isConfirmed) {
-      const res = await fetch(
-        `http://localhost:3000/api/profile/delete/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const res = await fetch(`/api/profile/delete/${id}`, {
+        method: "DELETE",
+      });
 
       const data = await res.json();
       if (data.error) {

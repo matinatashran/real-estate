@@ -90,7 +90,7 @@ const AdvertisementForm = ({
       );
     }
     setIsPending(true);
-    const res = await fetch("http://localhost:3000/api/profile", {
+    const res = await fetch("/api/profile", {
       method: apiMethod,
       body: JSON.stringify({
         _id: adData ? adData._id : null,
