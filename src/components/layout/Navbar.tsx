@@ -11,7 +11,7 @@ import { FiUser } from "react-icons/fi";
 // images
 import logo from "@/public/images/real-estate-logo.jpg";
 
-// module
+// layout
 import Menu from "@/layout/Menu";
 
 const Navbar = () => {
