@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, FC } from "react";
 
 // element
 import Button from "@/element/Button";
@@ -19,7 +19,7 @@ interface IProps {
   verifyPasswordHandler: any;
 }
 
-const ForgetPassForm = ({
+const ForgetPassForm: FC<IProps> = ({
   isPending,
   isSendEmail,
   email,
@@ -28,7 +28,7 @@ const ForgetPassForm = ({
   setVerifyPassword,
   sendPasswordHandler,
   verifyPasswordHandler,
-}: IProps) => {
+}) => {
   const [time, setTime] = useState<number>(120);
   const [isStartTimer, setIsStartTimer] = useState<boolean>(true);
 

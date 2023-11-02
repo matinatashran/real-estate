@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 
 // .
@@ -9,7 +9,7 @@ interface IProps {
   children: ReactNode;
 }
 
-const Layout = ({ children }: IProps) => {
+const Layout: FC<IProps> = ({ children }) => {
   return (
     <div className="xl:container m-auto">
       <Navbar />

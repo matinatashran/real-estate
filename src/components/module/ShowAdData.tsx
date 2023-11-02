@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { RiVipDiamondFill } from "react-icons/ri";
 
 interface IProps {
@@ -5,7 +6,7 @@ interface IProps {
   data: string[] | string;
 }
 
-const ShowAdData = ({ title, data }: IProps) => {
+const ShowAdData: FC<IProps> = ({ title, data }) => {
   return (
     <div className={`flex flex-col gap-2 ${data.length ? "block" : "hidden"}`}>
       <span className="font-semibold text-sm border-l-[3px] border-black pl-2">

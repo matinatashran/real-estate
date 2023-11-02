@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import DatePicker from "react-multi-date-picker";
 
 interface IDatePickerProps {
@@ -6,7 +6,7 @@ interface IDatePickerProps {
   setValue: Dispatch<SetStateAction<Date | null>>;
 }
 
-const CustomDatePicker = ({ value, setValue }: IDatePickerProps) => {
+const CustomDatePicker: FC<IDatePickerProps> = ({ value, setValue }) => {
   const dateChangeHandler = (e: any) => {
     if (e) {
       const date = new Date(e);
@@ -19,7 +19,7 @@ const CustomDatePicker = ({ value, setValue }: IDatePickerProps) => {
   return (
     <div className="w-full flex flex-col items-start gap-2 md:w-3/5">
       <span className="px-2 py-1 text-sm rounded-xl bg-stone-100 shadow-md text-stone-700">
-      Construction Date
+        Construction Date
       </span>
       <DatePicker
         value={value}

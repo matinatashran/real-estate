@@ -6,13 +6,16 @@ import { AiFillEdit } from "react-icons/ai";
 
 // utils
 import { confirmDelete } from "@/utils/Confirmation";
+import { FC } from "react";
+
+// utils
 import { notify } from "@/utils/notify";
 
 interface IProps {
   id: string;
 }
 
-const AdCardTopButtons = ({ id }: IProps) => {
+const AdCardTopButtons: FC<IProps> = ({ id }) => {
   const pathname = usePathname();
   const router = useRouter();
 

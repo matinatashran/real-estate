@@ -1,4 +1,6 @@
 "use client";
+
+import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,7 +17,7 @@ interface IProps {
   data: any;
 }
 
-const AdCard = ({ data }: IProps) => {
+const AdCard: FC<IProps> = ({ data }) => {
   const pathname = usePathname();
 
   return (

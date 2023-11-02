@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 // module
 import AdminCard from "@/module/AdminCard";
 import DashboardPagesTitle from "@/module/DashboardPagesTitle";
@@ -7,7 +9,7 @@ interface IProps {
   data: any[];
 }
 
-const AdminPage = ({ data }: IProps) => {
+const AdminPage: FC<IProps> = ({ data }) => {
   return (
     <div className="w-[90%] h-full mx-auto flex flex-col items-center">
       <DashboardPagesTitle title="Advertisements" />

@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from "react";
+import { FC, MouseEventHandler, ReactNode } from "react";
 import { ThreeDots } from "react-loader-spinner";
 
 interface Iprops {
@@ -8,7 +8,12 @@ interface Iprops {
   onButtonClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-const Button = ({ isPending, children, className, onButtonClick }: Iprops) => {
+const Button: FC<Iprops> = ({
+  isPending,
+  children,
+  className,
+  onButtonClick,
+}) => {
   return (
     <button
       disabled={isPending}

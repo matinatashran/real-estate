@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { signOut } from "next-auth/react";
 import { HiUser } from "react-icons/hi2";
 import { FiLogOut } from "react-icons/fi";
@@ -23,7 +23,7 @@ interface IProps {
   };
 }
 
-const DashboardPage = ({ data }: IProps) => {
+const DashboardPage: FC<IProps> = ({ data }) => {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [firstname, setFirstname] = useState<string>("");

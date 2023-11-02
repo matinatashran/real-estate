@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Dispatch, SetStateAction } from "react";
+import { useEffect, useState, Dispatch, SetStateAction, FC } from "react";
 import { useRouter } from "next/navigation";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { TiArrowUnsorted } from "react-icons/ti";
@@ -17,11 +17,11 @@ interface IProps {
   setSearchedPhrase: Dispatch<SetStateAction<string>>;
 }
 
-const FilterSection = ({
+const FilterSection: FC<IProps> = ({
   searchParams,
   searchedPhrase,
   setSearchedPhrase,
-}: IProps) => {
+}) => {
   const router = useRouter();
   const [filterByCategory, setFilterByCategory] = useState<string[]>(
     searchParams.category ? [...searchParams.category.split("-")] : []

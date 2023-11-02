@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 import { BiAddToQueue } from "react-icons/bi";
 import { FiTrash2 } from "react-icons/fi";
 
@@ -13,7 +13,7 @@ interface IChangeType {
   index: number;
 }
 
-const TextList = ({ listTitle, itemList, setItemList }: ITextListProps) => {
+const TextList: FC<ITextListProps> = ({ listTitle, itemList, setItemList }) => {
   const ChangeValueHandler = ({ e, index }: IChangeType) => {
     const list = [...itemList];
     list[index] = e.target.value;

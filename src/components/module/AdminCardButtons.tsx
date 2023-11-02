@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ThreeDots } from "react-loader-spinner";
@@ -17,7 +17,7 @@ interface IProps {
   id: string;
 }
 
-const AdminCardButtons = ({ id }: IProps) => {
+const AdminCardButtons: FC<IProps> = ({ id }) => {
   const router = useRouter();
   const [isPendingDelete, setIsPendingDelete] = useState<boolean>(false);
   const [isPendingPublish, setIsPendingPublish] = useState<boolean>(false);

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import { BiSolidSquareRounded as SquareIcon } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 
@@ -12,12 +12,12 @@ interface IProps {
   setFilteredList: Dispatch<SetStateAction<string[]>>;
 }
 
-const FilterListChildElement = ({
+const FilterListChildElement: FC<IProps> = ({
   title,
   itemList,
   filteredList,
   setFilteredList,
-}: IProps) => {
+}) => {
   const elementClickHandler = () => {
     if (itemList.includes("all")) {
       if (title === "all" && itemList.length === filteredList.length) {

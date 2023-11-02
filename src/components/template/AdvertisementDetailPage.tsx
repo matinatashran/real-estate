@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { MdVilla, MdOutlineApartment } from "react-icons/md";
 import { FaStore } from "react-icons/fa";
 import { SiOnlyoffice } from "react-icons/si";
@@ -38,7 +39,7 @@ const categoryIcons: any = {
   office: <SiOnlyoffice className="text-stone-200 w-[90%] h-[90%]" />,
 };
 
-const AdvertisementDetailPage = ({
+const AdvertisementDetailPage: FC<IProps> = ({
   data: {
     title,
     description,
@@ -54,7 +55,7 @@ const AdvertisementDetailPage = ({
     updatedAt,
     images,
   },
-}: IProps) => {
+}) => {
   return (
     <div className="xl:container relative flex flex-col-reverse lg:flex-row w-[calc(100vw_-_26px)] lg:w-[calc(100vw_-_102px)] lg:h-[calc(100dvh_-_102px)] m-auto rounded-3xl overflow-hidden mb-10 lg:mb-auto">
       <div className="w-full lg:w-1/2 bg-stone-200 relative flex flex-col justify-between gap-7 p-5 pt-12 lg:pt-24 overflow-auto">

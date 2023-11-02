@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import Link from "next/link";
 import { FiUser } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
@@ -10,7 +10,7 @@ interface IProps {
   status: "authenticated" | "loading" | "unauthenticated";
 }
 
-const Menu = ({ status, className, isShowMenu, setIsShowMenu }: IProps) => {
+const Menu: FC<IProps> = ({ status, className, isShowMenu, setIsShowMenu }) => {
   return (
     <>
       {isShowMenu && (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 // modules
 import DashboardPagesTitle from "@/module/DashboardPagesTitle";
@@ -25,12 +25,12 @@ interface IFormProps {
   adData?: any;
 }
 
-const AdvertisementForm = ({
+const AdvertisementForm: FC<IFormProps> = ({
   apiMethod,
   pageTitle,
   buttonTitle,
   adData,
-}: IFormProps) => {
+}) => {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");

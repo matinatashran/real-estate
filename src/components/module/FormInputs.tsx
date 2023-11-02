@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 
 // utils
 import { sp } from "@/utils/replaceNumber";
@@ -18,7 +18,7 @@ interface IProps {
   formClass?: string | undefined;
 }
 
-const FormInputs = ({ inputList, formClass }: IProps) => {
+const FormInputs: FC<IProps> = ({ inputList, formClass }) => {
   return (
     <div className={formClass}>
       {inputList.map((item, index) => (

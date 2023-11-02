@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 // utils
 import { toUpperCaseFirstLetter } from "@/utils/functions";
 import { sp } from "@/utils/replaceNumber";
@@ -15,13 +17,13 @@ interface IProps {
   images: ImageListType;
 }
 
-const ShowAdPicture = ({
+const ShowAdPicture: FC<IProps> = ({
   adTitle,
   adType,
   price,
   constructionYear,
   images,
-}: IProps) => {
+}) => {
   return (
     <div className="relative w-full h-full bg-black p-5 lg:w-1/2 flex flex-col justify-center items-center gap-7">
       <div className="absolute top-5 left-5 text-center py-1 px-2 text-sm font-semibold bg-stone-200 rounded-md">

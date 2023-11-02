@@ -1,3 +1,4 @@
+import { FC } from "react";
 import Link from "next/link";
 import { IconType } from "react-icons/lib";
 
@@ -6,7 +7,7 @@ interface IProps {
   IconElement: IconType;
 }
 
-const HomeCategoryIcon = ({ title, IconElement }: IProps) => {
+const HomeCategoryIcon: FC<IProps> = ({ title, IconElement }) => {
   return (
     <Link
       href={{

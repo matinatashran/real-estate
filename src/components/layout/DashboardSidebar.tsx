@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { FaUserCircle } from "react-icons/fa";
@@ -21,7 +21,7 @@ interface IProps {
   unPublishedData: any[];
 }
 
-const DashboardSidebar = ({ email, role, unPublishedData }: IProps) => {
+const DashboardSidebar: FC<IProps> = ({ email, role, unPublishedData }) => {
   const screenWidth = useScreenWidth();
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(
     screenWidth >= 756
@@ -107,7 +107,7 @@ const DashboardSidebar = ({ email, role, unPublishedData }: IProps) => {
           <div className="w-full">
             <hr className="my-3" />
             <button
-              onClick={async() => await signOut()}
+              onClick={async () => await signOut()}
               className="flex items-center gap-3"
             >
               <FiLogOut className="w-8 h-8 p-1 text-red-500 bg-white rounded-xl" />

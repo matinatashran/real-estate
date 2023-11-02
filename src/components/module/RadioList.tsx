@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import { BsCheckLg } from "react-icons/bs";
 
 interface IValueType {
@@ -14,13 +14,13 @@ interface IRadioType {
   setSelected: Dispatch<SetStateAction<string>>;
 }
 
-const RadioList = ({
+const RadioList: FC<IRadioType> = ({
   radioTitle,
   valueList,
   className,
   selected,
   setSelected,
-}: IRadioType) => {
+}) => {
   return (
     <div className="w-full flex flex-col items-start gap-2 md:w-3/5">
       <span className="px-2 py-1 text-sm rounded-xl bg-stone-100 shadow-md text-stone-700">

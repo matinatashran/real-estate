@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 import Image from "next/image";
 
 // utils
@@ -11,7 +11,7 @@ interface IProps {
   defaultIndex?: number;
 }
 
-const ImageSlider = ({ images, defaultIndex }: IProps) => {
+const ImageSlider: FC<IProps> = ({ images, defaultIndex }) => {
   const [imgIndex, setImgIndex] = useState<number>(defaultIndex || 0);
 
   return (
@@ -22,7 +22,9 @@ const ImageSlider = ({ images, defaultIndex }: IProps) => {
             key={index}
             src={item}
             alt="real estate"
-            className={`absolute top-0 left-0 w-full h-full rounded-[2rem] md:rounded-[3rem] transition-all duration-500 ${imgIndex === index ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}
+            className={`absolute top-0 left-0 w-full h-full rounded-[2rem] md:rounded-[3rem] transition-all duration-500 ${
+              imgIndex === index ? "scale-100 opacity-100" : "scale-0 opacity-0"
+            }`}
           />
         ))}
       </div>
@@ -34,7 +36,9 @@ const ImageSlider = ({ images, defaultIndex }: IProps) => {
             alt="real estate"
             onClick={() => setImgIndex(index)}
             className={`w-9 h-9 cursor-pointer transition-all duration-500 ${
-              imgIndex === index ? "scale-125 rounded-[50%] mx-1.5" : "rounded-md"
+              imgIndex === index
+                ? "scale-125 rounded-[50%] mx-1.5"
+                : "rounded-md"
             }`}
           />
         ))}

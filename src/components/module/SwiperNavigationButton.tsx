@@ -1,5 +1,6 @@
 "use client";
 
+import { FC } from "react";
 import { IconType } from "react-icons";
 import { useSwiper } from "swiper/react";
 
@@ -7,7 +8,7 @@ interface IProps {
   navigationTo: "prev" | "next";
   IconElement: IconType;
 }
-const SwiperNavigationButton = ({ navigationTo, IconElement }: IProps) => {
+const SwiperNavigationButton: FC<IProps> = ({ navigationTo, IconElement }) => {
   const swiper = useSwiper();
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState, useRef, useEffect } from "react";
+import { Dispatch, SetStateAction, useState, useRef, useEffect, FC } from "react";
 import { IconType } from "react-icons/lib";
 
 // element
@@ -14,20 +14,20 @@ interface IProps {
   TitleIcon: IconType;
 }
 
-const FilterElement = ({
+const FilterElement: FC<IProps> = ({
   filterTitle,
   itemList,
   filteredList,
   setFilteredList,
   TitleIcon,
-}: IProps) => {
+}) => {
   const [isShow, setIsShow] = useState<boolean>(false);
   const elementRef: any = useRef();
 
   useEffect(() => {
     function clickOutsideHandler(event: MouseEvent) {
       if (elementRef.current && !elementRef.current.contains(event.target)) {
-        setIsShow(false)
+        setIsShow(false);
       }
     }
 

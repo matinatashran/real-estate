@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 
 // element
 import Button from "@/element/Button";
@@ -15,14 +15,14 @@ interface IProps {
   changePasswordHandler: any;
 }
 
-const ChangePassForm = ({
+const ChangePassForm: FC<IProps> = ({
   isPending,
   newPassword,
   setNewPassword,
   confirmPassword,
   setConfirmPassword,
   changePasswordHandler,
-}: IProps) => {
+}) => {
   return (
     <div>
       <>

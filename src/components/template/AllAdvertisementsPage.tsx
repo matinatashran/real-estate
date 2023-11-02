@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 
 import { ISearchParamsType } from "src/app/advertisements/page";
 
@@ -15,9 +15,9 @@ interface IProps {
   searchParams: ISearchParamsType;
 }
 
-const AllAdvertisementsPage = ({ data, searchParams }: IProps) => {
+const AllAdvertisementsPage: FC<IProps> = ({ data, searchParams }) => {
   const [searchedPhrase, setSearchedPhrase] = useState<string>("");
-  
+
   return (
     <div className="w-[99.5%] md:w-[95%] h-full mx-auto flex flex-col items-center">
       <DashboardPagesTitle title="Advertisements" />

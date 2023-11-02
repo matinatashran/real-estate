@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 // module
 import AdvertisementForm from "@/module/AdvertisementForm";
 
@@ -5,7 +7,7 @@ interface IProps {
   data: any;
 }
 
-const EditAdvertisementPage = ({ data }: IProps) => {
+const EditAdvertisementPage: FC<IProps> = ({ data }) => {
   return (
     <AdvertisementForm
       apiMethod="PATCH"

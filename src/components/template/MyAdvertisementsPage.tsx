@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 // module
 import AdCard from "@/module/AdCard";
 import DashboardPagesTitle from "@/module/DashboardPagesTitle";
@@ -7,7 +9,7 @@ interface IProps {
   advertisements: object[];
 }
 
-const MyAdvertisementsPage = ({ advertisements }: IProps) => {
+const MyAdvertisementsPage: FC<IProps> = ({ advertisements }) => {
   return (
     <div className="w-[80%] h-full mx-auto flex flex-col mb-20">
       <DashboardPagesTitle title="My Advertisements" />

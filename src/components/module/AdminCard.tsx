@@ -1,3 +1,4 @@
+import { FC } from "react";
 import Image from "next/image";
 import { BiSolidUser } from "react-icons/bi";
 
@@ -18,11 +19,11 @@ interface IProps {
   description: string;
   category: string;
   adType: string;
-  images: ImageListType,
+  images: ImageListType;
   updatedAt: string;
 }
 
-const AdminCard = ({
+const AdminCard: FC<IProps> = ({
   id,
   createdBy,
   role,
@@ -32,11 +33,15 @@ const AdminCard = ({
   adType,
   images,
   updatedAt,
-}: IProps) => {
+}) => {
   return (
     <div className="relative grid gap-3 grid-cols-5 grid-rows-3 md:max-h-[230px] shadow-lg p-5 rounded-lg bg-stone-100">
       <div className="w-full h-[150px] hidden md:block row-span-3">
-        <Image src={images[0]} alt="home" className="w-full h-full rounded-[1rem]" />
+        <Image
+          src={images[0]}
+          alt="home"
+          className="w-full h-full rounded-[1rem]"
+        />
       </div>
       <h3 className="text-sm md:text-base font-bold col-span-2">{title}</h3>
       <div className="flex items-center gap-1 justify-self-end place-self-start col-span-3 md:col-span-2">
