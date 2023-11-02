@@ -1,5 +1,5 @@
 "use client";
-
+import { FC } from "react";
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from "react-icons/bs";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, Autoplay, FreeMode } from "swiper/modules";
@@ -15,7 +15,7 @@ interface IProps {
   data: any[];
 }
 
-const HomeNewestAd = ({ data }: IProps) => {
+const HomeNewestAd: FC<IProps> = ({ data }) => {
   // swiper breakPoints
   const breakPoints = {
     670: { slidesPerView: 2 },
