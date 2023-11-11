@@ -59,9 +59,7 @@ const AdCard: FC<IProps> = ({ data }) => {
             })}
           </span>
           <Link
-            href={`${pathname === "/" ? "advertisements" : pathname}/${
-              data._id
-            }`}
+            href={`/advertisements/${data._id}`}
             className="w-[50%] py-2 text-white text-sm bg-black rounded-xl mx-auto flex justify-center items-center gap-2"
           >
             See More
