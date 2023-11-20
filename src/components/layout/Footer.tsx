@@ -5,6 +5,7 @@ import Link from "next/link";
 
 // images
 import logo from "@/public/images/real-estate-logo.jpg";
+import Logo from "@/module/logo";
 
 const Footer = () => {
   const session = useSession();
@@ -51,9 +52,7 @@ const Footer = () => {
           )}
         </ul>
       </div>
-      <div className="max-w-[300px] h-[250px] rounded-[2rem] p-5 bg-white border-2 border-black flex items-center">
-        <Image src={logo} alt="real estate" className="w-full h-fit" />
-      </div>
+      <Logo isShowName className="w-32 sm:w-44 md:w-64 stroke-black" />
     </div>
   );
 };

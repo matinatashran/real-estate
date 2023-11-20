@@ -3,16 +3,16 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import Image from "next/image";
+
 import { HiOutlineMenuAlt4 as MenuIcon } from "react-icons/hi";
 import { BiLogInCircle } from "react-icons/bi";
 import { FiUser } from "react-icons/fi";
 
-// images
-import logo from "@/public/images/real-estate-logo.jpg";
-
 // layout
 import Menu from "@/layout/Menu";
+
+// module
+import Logo from "@/module/logo";
 
 const Navbar = () => {
   const { status } = useSession();
@@ -22,7 +22,7 @@ const Navbar = () => {
     <div className="bg-white sticky top-0 z-[60]">
       <div className="w-[85%] h-14 m-auto flex justify-between items-center">
         <Link href="/">
-          <Image src={logo} alt="real estate" className="w-16" />
+          <Logo className="w-10 stroke-black" />
         </Link>
         <div className="flex items-center gap-3 md:hidden">
           <div onClick={() => setIsShowMenu(true)}>
