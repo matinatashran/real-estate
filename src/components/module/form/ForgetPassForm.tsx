@@ -59,12 +59,13 @@ const ForgetPassForm: FC<IProps> = ({ setIsVerify }) => {
     }
   };
 
-  const verifyPasswordHandler = async ({ verifyPassword }: any) => {
-    const emptyErr = validation([verifyPassword], "NOT_EMPTY");
+  const verifyCodeHandler = async ({ verifyCode }: any) => {
+    const emptyErr = validation([verifyCode], "NOT_EMPTY");
+    console.log(OTPCode, verifyCode)
     if (emptyErr) {
       notify(emptyErr, "error");
     } else {
-      if (OTPCode === verifyPassword) {
+      if (OTPCode === verifyCode) {
         setIsVerify(true);
       } else {
         notify("Verify password incorrect!", "error");
@@ -115,7 +116,7 @@ const ForgetPassForm: FC<IProps> = ({ setIsVerify }) => {
         className="w-full md:w-3/5 my-8 bg-black text-white text-center py-2 rounded-md"
         onButtonClick={
           isSendEmail
-            ? verifyForm.handleSubmit(verifyPasswordHandler)
+            ? verifyForm.handleSubmit(verifyCodeHandler)
             : emailForm.handleSubmit(sendPasswordHandler)
         }
         isPending={isPending}
