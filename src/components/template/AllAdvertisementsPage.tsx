@@ -6,7 +6,7 @@ import { ISearchParamsType } from "src/app/advertisements/page";
 
 // module
 import DashboardPagesTitle from "@/module/DashboardPagesTitle";
-import AdCard from "@/module/AdCard";
+import AdCard from "@/module/cards/AdCard";
 import NotExist from "@/module/NotExist";
 import FilterSection from "@/module/FilterSection";
 

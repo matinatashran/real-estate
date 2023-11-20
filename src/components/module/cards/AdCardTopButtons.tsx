@@ -5,7 +5,7 @@ import { FiTrash2 } from "react-icons/fi";
 import { AiFillEdit } from "react-icons/ai";
 
 // utils
-import { confirmDelete } from "@/utils/Confirmation";
+import { confirmation } from "@/utils/Confirmation";
 import { FC } from "react";
 
 // utils
@@ -20,7 +20,10 @@ const AdCardTopButtons: FC<IProps> = ({ id }) => {
   const router = useRouter();
 
   const deleteHandler = async () => {
-    const isConfirmed = await confirmDelete("Are you sure you want to delete?");
+    const isConfirmed = await confirmation(
+      "Are you sure you want to delete?",
+      "DELETE"
+    );
     if (isConfirmed) {
       const res = await fetch(`/api/profile/delete/${id}`, {
         method: "DELETE",

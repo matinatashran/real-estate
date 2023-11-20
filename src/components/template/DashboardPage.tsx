@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, FC } from "react";
+import { useForm } from "react-hook-form";
 import { signOut } from "next-auth/react";
 import { HiUser } from "react-icons/hi2";
 import { FiLogOut } from "react-icons/fi";
@@ -13,7 +14,8 @@ import { notify } from "@/utils/notify";
 import Button from "@/element/Button";
 
 // module
-import FormInputs from "@/module/FormInputs";
+import Form from "@/module/form/Form";
+import ChangePassForm from "@/module/form/ChangePassForm";
 
 interface IProps {
   data: {
@@ -22,22 +24,22 @@ interface IProps {
     lastname: string;
   };
 }
-
 const DashboardPage: FC<IProps> = ({ data }) => {
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [firstname, setFirstname] = useState<string>("");
-  const [lastname, setLastname] = useState<string>("");
+  const [isChangePass, setIsChangePass] = useState<boolean>(false);
+  const { register, setValue, getValues, handleSubmit, watch } = useForm();
+
+  watch();
 
   useEffect(() => {
     if (Object.keys(data).length) {
-      setEmail(data.email);
-      setFirstname(data.firstname);
-      setLastname(data.lastname);
+      setValue("email", data.email);
+      setValue("firstname", data.firstname);
+      setValue("lastname", data.lastname);
     }
   }, [data]);
 
-  const editUserHandler = async () => {
+  const editUserHandler = async ({ email, firstname, lastname }: any) => {
     const emptyErr = validation([email], "NOT_EMPTY");
     const emailErr = validation(email, "EMAIL");
 
@@ -80,39 +82,47 @@ const DashboardPage: FC<IProps> = ({ data }) => {
           </div>
           <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-2 lg:gap-auto">
             <h2 className="text-2xl md:text-3xl font-bold">
-              {firstname} {lastname}
+              {getValues("firstname")} {getValues("lastname")}
             </h2>
-            <span className="text-sm md:text-base">{email}</span>
+            <span className="text-sm md:text-base">{getValues("email")}</span>
           </div>
         </div>
       </div>
       <div
         className="w-full lg:w-[80%] bg-white rounded-2xl py-8 px-5 flex flex-col items-center"
-        onKeyDown={(e) => e.code === "Enter" && editUserHandler()}
+        onKeyDown={(e) => e.code === "Enter" && handleSubmit(editUserHandler)}
       >
-        <FormInputs
+        <Form
+          register={register}
           formClass="w-full flex flex-col items-center justify-center gap-6"
-          inputList={[
-            {
-              value: firstname,
-              setValue: setFirstname,
-              placeholder: "Firstname (Optional)",
-            },
-            {
-              value: lastname,
-              setValue: setLastname,
-              placeholder: "Lastname (Optional)",
-            },
-            { value: email, setValue: setEmail, placeholder: "Email" },
+          fieldList={[
+            { name: "firstname", placeholder: "Firstname (Optional)" },
+            { name: "lastname", placeholder: "Lastname (Optional)" },
+            { name: "email", placeholder: "Email" },
           ]}
         />
         <Button
           isPending={isPending}
           className="w-full md:w-72 my-8 bg-black text-white text-center py-2 rounded-md"
-          onButtonClick={editUserHandler}
+          onButtonClick={handleSubmit(editUserHandler)}
         >
           Save Changes
         </Button>
+        <hr className="w-full mb-3" />
+        <div className="w-full">
+          <span
+            onClick={() => setIsChangePass(!isChangePass)}
+            className="text-sm cursor-pointer text-blue-500"
+          >
+            {isChangePass ? "Back" : "Change Password"}
+          </span>
+        </div>
+        {isChangePass ? (
+          <ChangePassForm
+            formJustify="center"
+            className="w-full flex flex-col items-center"
+          />
+        ) : null}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 // module
-import AdminCard from "@/module/AdminCard";
+import AdminCard from "@/module/cards/AdminCard";
 import DashboardPagesTitle from "@/module/DashboardPagesTitle";
 import NotExist from "@/module/NotExist";
 

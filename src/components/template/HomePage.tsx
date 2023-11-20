@@ -1,9 +1,9 @@
 import { FC } from "react";
 
 // module
-import Header from "@/module/Header";
-import HomeCategory from "@/module/HomeCategory";
-import HomeNewestAd from "@/module/HomeNewestAd";
+import Header from "@/module/landing/Header";
+import HomeCategory from "@/module/landing/HomeCategory";
+import HomeNewestAd from "@/module/landing/HomeNewestAd";
 
 interface IProps {
   data: any[];
@@ -15,7 +15,6 @@ const HomePage: FC<IProps> = ({ data }) => {
       <Header />
       <HomeCategory />
       <HomeNewestAd data={data} />
-      <div></div>
     </div>
   );
 };

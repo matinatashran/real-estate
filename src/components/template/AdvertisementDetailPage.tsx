@@ -6,8 +6,8 @@ import { HiOutlineDevicePhoneMobile as MobileIcon } from "react-icons/hi2";
 import { MdRealEstateAgent } from "react-icons/md";
 
 // module
-import ShowAdData from "@/module/ShowAdData";
-import ShowAdPicture from "@/module/ShowAdPicture";
+import ShowAdData from "@/module/detailPage/ShowAdData";
+import ShowAdPicture from "@/module/detailPage/ShowAdPicture";
 
 // utils
 import { ImageListType } from "@/utils/getImages";

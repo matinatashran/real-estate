@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 // module
-import AdvertisementForm from "@/module/AdvertisementForm";
+import AdvertisementForm from "@/module/form/AdvertisementForm";
 
 interface IProps {
   data: any;

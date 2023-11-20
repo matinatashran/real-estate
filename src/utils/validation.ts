@@ -8,7 +8,7 @@ export function validation(
   if (type === "NOT_EMPTY") {
     // data must be array
     for (let i = 0; i < data.length; i++) {
-      if (!String(data[i]).trim())
+      if (!String(data[i]).trim() || data[i] === null)
         return "Invalid data! Please fill each fields.";
     }
   } else if (type === "EMAIL" && typeof data === "string") {

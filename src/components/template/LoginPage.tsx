@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 
 // module
-import FormInputs from "@/module/FormInputs";
+import Form from "@/module/form/Form";
 
 // element
 import Button from "../element/Button";
@@ -18,10 +19,9 @@ import { notify } from "@/utils/notify";
 const LoginPage = () => {
   const router = useRouter();
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { register, handleSubmit } = useForm();
 
-  const loginHandler = async () => {
+  const loginHandler = async ({ email, password }: any) => {
     const emptyErr = validation([email, password], "NOT_EMPTY");
 
     if (emptyErr) {
@@ -43,12 +43,13 @@ const LoginPage = () => {
   };
 
   return (
-    <div onKeyDown={(e) => e.code === "Enter" && loginHandler()}>
-      <FormInputs
+    <div onKeyDown={(e) => e.code === "Enter" && handleSubmit(loginHandler)}>
+      <Form
+        register={register}
         formClass="w-full flex flex-col justify-center gap-3"
-        inputList={[
-          { value: email, setValue: setEmail, placeholder: "Email" },
-          { value: password, setValue: setPassword, placeholder: "Password" },
+        fieldList={[
+          { name: "email", placeholder: "Email" },
+          { name: "password", type: "password", placeholder: "Password" },
         ]}
       />
       <div className="w-full md:w-3/5 text-right my-2">
@@ -59,7 +60,7 @@ const LoginPage = () => {
       <Button
         isPending={isPending}
         className="w-full md:w-3/5 my-8 bg-black text-white text-center py-2 rounded-md"
-        onButtonClick={loginHandler}
+        onButtonClick={handleSubmit(loginHandler)}
       >
         Log In
       </Button>

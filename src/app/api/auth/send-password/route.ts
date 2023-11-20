@@ -9,6 +9,7 @@ import connectDB from "@/utils/connectDB";
 
 // .
 import getMailData from "./nodemailer";
+import VerifyComponent from "./verify-component";
 
 export async function POST(req: NextRequest) {
   try {
@@ -29,15 +30,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email incorrect!" }, { status: 422 });
     }
 
-    const { transporter, mailOptions, randomCode } = getMailData(email);
+    const { transporter, mailOptions, OTPCode } = getMailData(email);
     await transporter.sendMail({
       ...mailOptions,
       subject: "Forget Password",
-      text: `Your verify password is "${randomCode}"`,
+      html: VerifyComponent(email, OTPCode),
     });
 
     return NextResponse.json(
-      { message: `Sent password to ${email}`, OTP: randomCode },
+      { message: `Sent password to ${email}`, OTP: OTPCode },
       { status: 200 }
     );
   } catch (err) {

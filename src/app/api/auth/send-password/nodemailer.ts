@@ -20,9 +20,9 @@ function getMailData(sendTo: string) {
     to: sendTo,
   };
 
-  const randomCode = `${Math.floor(100000 + Math.random() * 900000)}`;
+  const OTPCode = `${Math.floor(100000 + Math.random() * 900000)}`;
 
-  return { transporter, mailOptions, randomCode };
+  return { transporter, mailOptions, OTPCode };
 }
 
 export default getMailData;

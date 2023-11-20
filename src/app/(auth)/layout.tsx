@@ -25,7 +25,7 @@ const AuthLayout = ({ children }: IProps) => {
         <h1 className="text-3xl lg:text-5xl mt-3 font-sans">{page.title}</h1>
         <p className="text-sm text-gray-400 text-center">{page.subTitle}</p>
       </div>
-      <div className="relative w-[95%] xl:w-[70%] h-[500px] md:h-[400px] m-auto">
+      <div className="relative w-[95%] xl:w-[80%] h-[500px] md:h-[400px] m-auto">
         <div className="absolute bg-stone-100 rounded-full w-[160px] md:w-[250px] lg:w-[350px] -top-8 right-1/2 -mr-[80px] md:-right-8 lg:-right-16 md:mr-auto flex justify-center z-10">
           <Image src={auhtPageImg} alt="real estate" className="w-full" />
         </div>

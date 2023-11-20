@@ -1,7 +1,7 @@
 import { FaStore } from "react-icons/fa";
 import { SiOnlyoffice } from "react-icons/si";
 import { MdVilla, MdOutlineApartment } from "react-icons/md";
-import HomeCategoryIcon from "../element/HomeCategoryIcon";
+import HomeCategoryIcon from "../../element/HomeCategoryIcon";
 
 const HomeCategory = () => {
   return (

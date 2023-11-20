@@ -10,7 +10,7 @@ import { FiTrash2 } from "react-icons/fi";
 import { TbListDetails } from "react-icons/tb";
 
 // utils
-import { confirmDelete } from "@/utils/Confirmation";
+import { confirmation } from "@/utils/Confirmation";
 import { notify } from "@/utils/notify";
 
 interface IProps {
@@ -23,7 +23,11 @@ const AdminCardButtons: FC<IProps> = ({ id }) => {
   const [isPendingPublish, setIsPendingPublish] = useState<boolean>(false);
 
   const deleteHandler = async () => {
-    const isConfirmed = await confirmDelete("Are you sure you want to delete?");
+    const isConfirmed = await confirmation(
+      "Are you sure you want to delete?",
+      "DELETE"
+    );
+
     if (isConfirmed) {
       setIsPendingDelete(true);
       const res = await fetch(`/api/profile/delete/${id}`, {
@@ -42,18 +46,25 @@ const AdminCardButtons: FC<IProps> = ({ id }) => {
   };
 
   const publishHandler = async () => {
-    setIsPendingPublish(true);
-    const res = await fetch(`/api/profile/publish/${id}`, {
-      method: "PATCH",
-    });
+    const isConfirmed = await confirmation(
+      "Are you sure you want to publish?",
+      "CONFIRM"
+    );
 
-    setIsPendingPublish(false);
-    const data = await res.json();
-    if (data.error) {
-      return notify(data.error, "error");
-    } else {
-      notify(data.message, "success");
-      router.refresh();
+    if (isConfirmed) {
+      setIsPendingPublish(true);
+      const res = await fetch(`/api/profile/publish/${id}`, {
+        method: "PATCH",
+      });
+
+      setIsPendingPublish(false);
+      const data = await res.json();
+      if (data.error) {
+        return notify(data.error, "error");
+      } else {
+        notify(data.message, "success");
+        router.refresh();
+      }
     }
   };
 

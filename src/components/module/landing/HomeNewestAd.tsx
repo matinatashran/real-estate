@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 import "@/styles/swiper.style.css";
 
 // module
-import AdCard from "./AdCard";
+import AdCard from "../cards/AdCard";
 import SwiperNavigationButton from "./SwiperNavigationButton";
 
 interface IProps {

@@ -51,8 +51,8 @@ const Footer = () => {
           )}
         </ul>
       </div>
-      <div className="max-w-[300px] h-[250px] rounded-[2rem] p-5 bg-white border-2 border-black">
-        <Image src={logo} alt="real estate" className="w-full h-full" />
+      <div className="max-w-[300px] h-[250px] rounded-[2rem] p-5 bg-white border-2 border-black flex items-center">
+        <Image src={logo} alt="real estate" className="w-full h-fit" />
       </div>
     </div>
   );

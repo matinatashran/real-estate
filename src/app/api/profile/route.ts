@@ -87,6 +87,7 @@ export async function POST(req: NextRequest) {
       tagDescription: tagDescription || description,
       author: author || `${user.firstname} ${user.lastname}` || user.email,
       userId: new Types.ObjectId(user._id),
+      published: user.role === "ADMIN" ? true : false,
     });
 
     return NextResponse.json(

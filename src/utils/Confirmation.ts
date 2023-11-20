@@ -1,13 +1,16 @@
 import Swal from "sweetalert2";
 
-export const confirmDelete = async (text: string) => {
+type ConfirmationType = "DELETE" | "CONFIRM";
+
+export const confirmation = async (text: string, type: ConfirmationType) => {
   const result = await Swal.fire({
     text: text,
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#ff0000",
+    cancelButtonColor: "#c9c9c9",
+    confirmButtonColor: type === "DELETE" ? "#ff0000" : "#000000",
     cancelButtonText: "Cancel",
-    confirmButtonText: "Delete",
+    confirmButtonText: type === "DELETE" ? "Delete" : "Confirm",
     customClass: {
       popup: "!text-sm",
     },

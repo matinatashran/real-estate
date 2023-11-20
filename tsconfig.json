@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -21,20 +25,60 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/public/*": ["public/*"],
-      "@/models/*": ["src/models/*"],
-      "@/providers/*": ["src/providers/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/styles/*": ["src/styles/*"],
-      "@/hooks/*": ["src/hooks/*"],
-      "@/enum/*": ["src/enum/*"],
-      "@/api/*": ["src/app/api/*"],
-      "@/layout/*": ["src/components/layout/*"],
-      "@/element/*": ["src/components/element/*"],
-      "@/module/*": ["src/components/module/*"],
-      "@/template/*": ["src/components/template/*"]
-    }
+      "@/public/*": [
+        "public/*"
+      ],
+      "@/models/*": [
+        "src/models/*"
+      ],
+      "@/providers/*": [
+        "src/providers/*"
+      ],
+      "@/utils/*": [
+        "src/utils/*"
+      ],
+      "@/styles/*": [
+        "src/styles/*"
+      ],
+      "@/hooks/*": [
+        "src/hooks/*"
+      ],
+      "@/enum/*": [
+        "src/enum/*"
+      ],
+      "@/api/*": [
+        "src/app/api/*"
+      ],
+      "@/layout/*": [
+        "src/components/layout/*"
+      ],
+      "@/element/*": [
+        "src/components/element/*"
+      ],
+      "@/module/*": [
+        "src/components/module/*"
+      ],
+      "@/template/*": [
+        "src/components/template/*"
+      ]
+    },
+    "strict": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/auth/[...nextauth]/route.ts", "src/app/(auth)/login/page.tsx", "src/app/(auth)/register/page.tsx", "src/app/(auth)/forget-password/page.tsx", "src/app/dashboard/page.tsx", "src/app/(auth)/layout.tsx", "src/app/dashboard/layout.tsx", "src/app/dashboard/my-advertisements/[adverId]/page.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/app/api/auth/[...nextauth]/route.ts",
+    "src/app/(auth)/login/page.tsx",
+    "src/app/(auth)/register/page.tsx",
+    "src/app/(auth)/forget-password/page.tsx",
+    "src/app/dashboard/page.tsx",
+    "src/app/(auth)/layout.tsx",
+    "src/app/dashboard/layout.tsx",
+    "src/app/dashboard/my-advertisements/[adverId]/page.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

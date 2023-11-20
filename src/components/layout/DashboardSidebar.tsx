@@ -30,7 +30,10 @@ const DashboardSidebar: FC<IProps> = ({ email, role, unPublishedData }) => {
   return (
     <>
       {isShowSidebar && (
-        <div className="fixed md:hidden top-0 left-0 w-full h-full z-40 bg-black opacity-30"></div>
+        <div
+          onClick={() => setIsShowSidebar(false)}
+          className="fixed md:hidden top-0 left-0 w-full h-full z-40 bg-black opacity-30"
+        ></div>
       )}
       <div
         className={`fixed top-[70px] left-0 h-[calc(100dvh_-_140px)] mt-5 md:sticky md:top-[100px] transition-all duration-500 z-50 hover:translate-x-0 md:translate-x-0 ${

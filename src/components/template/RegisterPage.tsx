@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 // module
-import FormInputs from "@/module/FormInputs";
+import Form from "@/module/form/Form";
 
 // element
-import Button from "../element/Button";
+import Button from "@/element/Button";
 
 // utils
 import { validation } from "@/utils/validation";
@@ -16,12 +17,14 @@ import { notify } from "@/utils/notify";
 const RegisterPage = () => {
   const router = useRouter();
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [firstname, setFirstname] = useState<string>("");
-  const [lastname, setLastname] = useState<string>("");
+  const { register, handleSubmit } = useForm();
 
-  const registerHandler = async () => {
+  const registerHandler = async ({
+    email,
+    password,
+    firstname,
+    lastname,
+  }: any) => {
     const emptyErr = validation([email, password], "NOT_EMPTY");
     const emailErr = validation(email, "EMAIL");
     const passwordErr = validation(password, "PASSWORD");
@@ -52,28 +55,21 @@ const RegisterPage = () => {
   };
 
   return (
-    <div onKeyDown={(e) => e.code === "Enter" && registerHandler()}>
-      <FormInputs
+    <div onKeyDown={(e) => e.code === "Enter" && handleSubmit(registerHandler)}>
+      <Form
+        register={register}
         formClass="w-full flex flex-col justify-center gap-3"
-        inputList={[
-          {
-            value: firstname,
-            setValue: setFirstname,
-            placeholder: "Firstname (Optional)",
-          },
-          {
-            value: lastname,
-            setValue: setLastname,
-            placeholder: "Lastname (Optional)",
-          },
-          { value: email, setValue: setEmail, placeholder: "Email" },
-          { value: password, setValue: setPassword, placeholder: "Password" },
+        fieldList={[
+          { name: "firstname", placeholder: "Firstname (Optional)" },
+          { name: "lastname", placeholder: "Lastname (Optional)" },
+          { name: "email", placeholder: "Email" },
+          { name: "password", placeholder: "Password" },
         ]}
       />
       <Button
         isPending={isPending}
         className="w-full md:w-3/5 my-8 bg-black text-white text-center py-2 rounded-md"
-        onButtonClick={registerHandler}
+        onButtonClick={handleSubmit(registerHandler)}
       >
         Register
       </Button>

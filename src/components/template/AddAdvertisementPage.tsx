@@ -1,5 +1,5 @@
 // module
-import AdvertisementForm from "@/module/AdvertisementForm";
+import AdvertisementForm from "@/module/form/AdvertisementForm";
 
 const AddAdvertisementPage = () => {
   return (
