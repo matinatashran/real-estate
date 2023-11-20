@@ -43,7 +43,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div onKeyDown={(e) => e.code === "Enter" && handleSubmit(loginHandler)}>
+    <div>
       <Form
         register={register}
         formClass="w-full flex flex-col justify-center gap-3"

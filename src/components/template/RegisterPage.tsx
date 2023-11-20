@@ -55,7 +55,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div onKeyDown={(e) => e.code === "Enter" && handleSubmit(registerHandler)}>
+    <div>
       <Form
         register={register}
         formClass="w-full flex flex-col justify-center gap-3"
@@ -63,7 +63,7 @@ const RegisterPage = () => {
           { name: "firstname", placeholder: "Firstname (Optional)" },
           { name: "lastname", placeholder: "Lastname (Optional)" },
           { name: "email", placeholder: "Email" },
-          { name: "password", placeholder: "Password" },
+          { name: "password", type: "password", placeholder: "Password" },
         ]}
       />
       <Button
