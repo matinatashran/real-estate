@@ -3,13 +3,13 @@
 import { Dispatch, SetStateAction, useState, useEffect, FC } from "react";
 
 interface IProps {
-  time: number;
+  time: { seconds: number };
   setIsStartTimer: Dispatch<SetStateAction<boolean>>;
 }
 
 const Timer: FC<IProps> = ({ time, setIsStartTimer }) => {
-  let min: number = Math.floor(time / 60);
-  let sec: number = time % 60;
+  let min: number = Math.floor(time.seconds / 60);
+  let sec: number = time.seconds % 60;
   const [timer, setTimer] = useState<string>(
     `${min < 10 ? `0${min}` : min}:${sec < 10 ? `0${sec}` : sec}`
   );

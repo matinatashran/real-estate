@@ -21,15 +21,13 @@ const ForgetPassForm: FC<IProps> = ({ setIsVerify }) => {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isSendEmail, setIsSendEmail] = useState<boolean>(false);
   const [OTPCode, setOTPCode] = useState<string>("");
-  const [time, setTime] = useState<number>(120);
+  const [time, setTime] = useState<{ seconds: number }>({ seconds: 120 });
   const [isStartTimer, setIsStartTimer] = useState<boolean>(true);
 
   const emailForm = useForm();
   const verifyForm = useForm();
 
   const sendPasswordHandler = async ({ email }: any) => {
-    console.log(email);
-    // return
     const emptyErr = validation([email], "NOT_EMPTY");
     const emailErr = validation(email, "EMAIL");
 
@@ -80,7 +78,7 @@ const ForgetPassForm: FC<IProps> = ({ setIsVerify }) => {
       email = JSON.parse(email);
       sendPasswordHandler({ email });
       setIsStartTimer(true);
-      setTime(120);
+      setTime({ seconds: 120 });
     }
   };
 
