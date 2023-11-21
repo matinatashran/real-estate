@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect, FC } from "react";
-import { useForm } from "react-hook-form";
 import { signOut } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import { HiUser } from "react-icons/hi2";
 import { FiLogOut } from "react-icons/fi";
 
 // utils
-import { validation } from "@/utils/validation";
 import { notify } from "@/utils/notify";
 
 // element
@@ -16,6 +17,8 @@ import Button from "@/element/Button";
 // module
 import Form from "@/module/form/Form";
 import ChangePassForm from "@/module/form/ChangePassForm";
+import errorHandler from "@/module/form/error";
+import { editUserSchema } from "@/module/form/validation/authForm";
 
 interface IProps {
   data: {
@@ -27,7 +30,9 @@ interface IProps {
 const DashboardPage: FC<IProps> = ({ data }) => {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isChangePass, setIsChangePass] = useState<boolean>(false);
-  const { register, setValue, getValues, handleSubmit, watch } = useForm();
+  const { register, setValue, getValues, handleSubmit, watch } = useForm({
+    resolver: yupResolver(editUserSchema),
+  });
 
   watch();
 
@@ -40,29 +45,22 @@ const DashboardPage: FC<IProps> = ({ data }) => {
   }, [data]);
 
   const editUserHandler = async ({ email, firstname, lastname }: any) => {
-    const emptyErr = validation([email], "NOT_EMPTY");
-    const emailErr = validation(email, "EMAIL");
-
-    if (emptyErr || emailErr) {
-      return notify(emptyErr || emailErr, "error");
+    setIsPending(true);
+    const res = await fetch("/api/edit-user", {
+      method: "PATCH",
+      body: JSON.stringify({
+        firstname,
+        lastname,
+        email,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    setIsPending(false);
+    if (data.error) {
+      notify(data.error, "error");
     } else {
-      setIsPending(true);
-      const res = await fetch("/api/edit-user", {
-        method: "PATCH",
-        body: JSON.stringify({
-          firstname,
-          lastname,
-          email,
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await res.json();
-      setIsPending(false);
-      if (data.error) {
-        notify(data.error, "error");
-      } else {
-        notify(data.message, "success");
-      }
+      notify(data.message, "success");
     }
   };
   return (
@@ -88,26 +86,24 @@ const DashboardPage: FC<IProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      <div
-        className="w-full lg:w-[80%] bg-white rounded-2xl py-8 px-5 flex flex-col items-center"
-        onKeyDown={(e) => e.code === "Enter" && handleSubmit(editUserHandler)}
-      >
-        <Form
-          register={register}
-          formClass="w-full flex flex-col items-center justify-center gap-6"
-          fieldList={[
-            { name: "firstname", placeholder: "Firstname (Optional)" },
-            { name: "lastname", placeholder: "Lastname (Optional)" },
-            { name: "email", placeholder: "Email" },
-          ]}
-        />
-        <Button
-          isPending={isPending}
-          className="w-full md:w-72 my-8 bg-black text-white text-center py-2 rounded-md"
-          onButtonClick={handleSubmit(editUserHandler)}
-        >
-          Save Changes
-        </Button>
+      <div className="w-full lg:w-[80%] bg-white rounded-2xl py-8 px-5 flex flex-col items-center">
+        <form onSubmit={handleSubmit(editUserHandler, errorHandler)}>
+          <Form
+            register={register}
+            formClass="w-full flex flex-col items-center justify-center gap-6"
+            fieldList={[
+              { name: "firstname", placeholder: "Firstname (Optional)" },
+              { name: "lastname", placeholder: "Lastname (Optional)" },
+              { name: "email", placeholder: "Email" },
+            ]}
+          />
+          <Button
+            isPending={isPending}
+            className="w-full md:w-72 my-8 bg-black text-white text-center py-2 rounded-md"
+          >
+            Save Changes
+          </Button>
+        </form>
         <hr className="w-full mb-3" />
         <div className="w-full">
           <span

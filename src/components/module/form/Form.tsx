@@ -14,7 +14,7 @@ interface IFieldProps {
   name: string;
   type?: "text" | "textArea" | "password" | "numeric";
   label?: string | undefined;
-  sp?: boolean;
+  separator?: boolean;
   placeholder?: string | undefined;
 }
 
@@ -51,8 +51,8 @@ const Form: FC<IProps> = ({ formClass, fieldList, register, control }) => {
             ControlerInput({
               name: item.name,
               placeholder: item.placeholder,
+              separator: item.separator,
               control,
-              sp,
             })
           ) : (
             <input
@@ -70,7 +70,7 @@ const Form: FC<IProps> = ({ formClass, fieldList, register, control }) => {
 
 export default Form;
 
-const ControlerInput = ({ name, control, sp, placeholder }) => {
+const ControlerInput = ({ name, control, separator, placeholder }) => {
   return (
     <Controller
       name={name}
@@ -83,7 +83,7 @@ const ControlerInput = ({ name, control, sp, placeholder }) => {
           className="w-full text-sm px-2 py-2 rounded-md border focus:outline-none focus:shadow-lg transition duration-300 placeholder:text-gray-200"
           onChange={(e) => {
             let value = e.target.value.replace(/\D/g, "");
-            if (sp) value = sp(value);
+            if (separator) value = sp(value);
             field.onChange(value);
           }}
         />

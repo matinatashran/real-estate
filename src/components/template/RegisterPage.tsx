@@ -2,22 +2,29 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { FieldError, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 // module
 import Form from "@/module/form/Form";
+import { registerSchema } from "@/module/form/validation/authForm";
 
 // element
 import Button from "@/element/Button";
 
 // utils
-import { validation } from "@/utils/validation";
 import { notify } from "@/utils/notify";
 
 const RegisterPage = () => {
   const router = useRouter();
   const [isPending, setIsPending] = useState<boolean>(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    resolver: yupResolver(registerSchema),
+  });
+
+  const errorHandler = (error: FieldError) => {
+    notify(Object.values(error)[0]["message"], "error");
+  };
 
   const registerHandler = async ({
     email,
@@ -25,37 +32,29 @@ const RegisterPage = () => {
     firstname,
     lastname,
   }: any) => {
-    const emptyErr = validation([email, password], "NOT_EMPTY");
-    const emailErr = validation(email, "EMAIL");
-    const passwordErr = validation(password, "PASSWORD");
-
-    if (emptyErr || emailErr || passwordErr) {
-      return notify(emptyErr || emailErr || passwordErr, "error");
+    setIsPending(true);
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify({
+        firstname,
+        lastname,
+        email,
+        password,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    setIsPending(false);
+    if (data.error) {
+      notify(data.error, "error");
     } else {
-      setIsPending(true);
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        body: JSON.stringify({
-          firstname,
-          lastname,
-          email,
-          password,
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await res.json();
-      setIsPending(false);
-      if (data.error) {
-        notify(data.error, "error");
-      } else {
-        notify(data.message, "success");
-        router.push("/login");
-      }
+      notify(data.message, "success");
+      router.push("/login");
     }
   };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit(registerHandler, errorHandler)}>
       <Form
         register={register}
         formClass="w-full flex flex-col justify-center gap-3"
@@ -69,11 +68,10 @@ const RegisterPage = () => {
       <Button
         isPending={isPending}
         className="w-full md:w-3/5 my-8 bg-black text-white text-center py-2 rounded-md"
-        onButtonClick={handleSubmit(registerHandler)}
       >
         Register
       </Button>
-    </div>
+    </form>
   );
 };
 

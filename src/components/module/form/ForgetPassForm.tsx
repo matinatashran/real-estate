@@ -2,16 +2,18 @@
 
 import { Dispatch, SetStateAction, useState, FC } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 // element
 import Button from "@/element/Button";
 
 // .
 import Timer from "./Timer";
+import errorHandler from "./error";
+import { emailFormSchema, verifyFormSchema } from "./validation/authForm";
 
 // utils
 import { notify } from "@/utils/notify";
-import { validation } from "@/utils/validation";
 
 interface IProps {
   setIsVerify: Dispatch<SetStateAction<boolean>>;
@@ -24,52 +26,39 @@ const ForgetPassForm: FC<IProps> = ({ setIsVerify }) => {
   const [time, setTime] = useState<{ seconds: number }>({ seconds: 120 });
   const [isStartTimer, setIsStartTimer] = useState<boolean>(true);
 
-  const emailForm = useForm();
-  const verifyForm = useForm();
+  const emailForm = useForm({ resolver: yupResolver(emailFormSchema) });
+  const verifyForm = useForm({ resolver: yupResolver(verifyFormSchema) });
 
   const sendPasswordHandler = async ({ email }: any) => {
-    const emptyErr = validation([email], "NOT_EMPTY");
-    const emailErr = validation(email, "EMAIL");
+    setIsPending(true);
+    const res = await fetch("/api/auth/send-password", {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
 
-    if (emptyErr || emailErr) {
-      notify(emptyErr || emailErr, "error");
+    const data = await res.json();
+    setIsPending(false);
+    if (data.error) {
+      notify(data.error, "error");
     } else {
-      setIsPending(true);
-      const res = await fetch("/api/auth/send-password", {
-        method: "POST",
-        body: JSON.stringify({
-          email,
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      const data = await res.json();
-      setIsPending(false);
-      if (data.error) {
-        notify(data.error, "error");
-      } else {
-        notify(data.message, "success");
-        setOTPCode(data.OTP);
-        setIsSendEmail(true);
-        window.localStorage.setItem(
-          "FP_U_Email",
-          JSON.stringify(emailForm.getValues("email"))
-        );
-      }
+      notify(data.message, "success");
+      setOTPCode(data.OTP);
+      setIsSendEmail(true);
+      window.localStorage.setItem(
+        "FP_U_Email",
+        JSON.stringify(emailForm.getValues("email"))
+      );
     }
   };
 
   const verifyCodeHandler = async ({ verifyCode }: any) => {
-    const emptyErr = validation([verifyCode], "NOT_EMPTY");
-    console.log(OTPCode, verifyCode)
-    if (emptyErr) {
-      notify(emptyErr, "error");
+    if (OTPCode === verifyCode) {
+      setIsVerify(true);
     } else {
-      if (OTPCode === verifyCode) {
-        setIsVerify(true);
-      } else {
-        notify("Verify password incorrect!", "error");
-      }
+      notify("Verify password incorrect!", "error");
     }
   };
 
@@ -84,7 +73,13 @@ const ForgetPassForm: FC<IProps> = ({ setIsVerify }) => {
   };
 
   return (
-    <div>
+    <form
+      onSubmit={
+        isSendEmail
+          ? verifyForm.handleSubmit(verifyCodeHandler, errorHandler)
+          : emailForm.handleSubmit(sendPasswordHandler, errorHandler)
+      }
+    >
       <div className="w-full flex flex-col justify-center gap-3 md:w-3/5">
         {!isSendEmail ? (
           <input
@@ -113,17 +108,12 @@ const ForgetPassForm: FC<IProps> = ({ setIsVerify }) => {
         )}
       </div>
       <Button
-        className="w-full md:w-3/5 my-8 bg-black text-white text-center py-2 rounded-md"
-        onButtonClick={
-          isSendEmail
-            ? verifyForm.handleSubmit(verifyCodeHandler)
-            : emailForm.handleSubmit(sendPasswordHandler)
-        }
         isPending={isPending}
+        className="w-full md:w-3/5 my-8 bg-black text-white text-center py-2 rounded-md"
       >
         {isSendEmail ? "Verify Code" : "Send Code"}
       </Button>
-    </div>
+    </form>
   );
 };
 

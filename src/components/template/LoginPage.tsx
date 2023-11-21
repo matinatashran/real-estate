@@ -2,48 +2,46 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 // module
 import Form from "@/module/form/Form";
+import errorHandler from "@/module/form/error";
+import { loginSchema } from "@/module/form/validation/authForm";
 
 // element
-import Button from "../element/Button";
+import Button from "@/element/Button";
 
 // utils
-import { validation } from "@/utils/validation";
 import { notify } from "@/utils/notify";
 
 const LoginPage = () => {
   const router = useRouter();
   const [isPending, setIsPending] = useState<boolean>(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
 
   const loginHandler = async ({ email, password }: any) => {
-    const emptyErr = validation([email, password], "NOT_EMPTY");
-
-    if (emptyErr) {
-      return notify(emptyErr, "error");
+    setIsPending(true);
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    setIsPending(false);
+    if (res?.error) {
+      notify(res.error, "error");
     } else {
-      setIsPending(true);
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-      setIsPending(false);
-      if (res?.error) {
-        notify(res.error, "error");
-      } else {
-        router.replace("/");
-      }
+      router.replace("/");
     }
   };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit(loginHandler, errorHandler)}>
       <Form
         register={register}
         formClass="w-full flex flex-col justify-center gap-3"
@@ -60,11 +58,10 @@ const LoginPage = () => {
       <Button
         isPending={isPending}
         className="w-full md:w-3/5 my-8 bg-black text-white text-center py-2 rounded-md"
-        onButtonClick={handleSubmit(loginHandler)}
       >
         Log In
       </Button>
-    </div>
+    </form>
   );
 };
 

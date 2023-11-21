@@ -1,18 +1,20 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 // element
 import Button from "@/element/Button";
 
 // utils
-import { validation } from "@/utils/validation";
 import { notify } from "@/utils/notify";
 
 // .
 import Form from "./Form";
+import errorHandler from "./error";
+import { changePasswordSchema } from "./validation/authForm";
 
 interface IProps {
   className?: string | undefined;
@@ -26,50 +28,38 @@ const ChangePassForm: FC<IProps> = ({
   formJustify = "left",
 }) => {
   const router = useRouter();
-  const { register, handleSubmit, setValue, getValues } = useForm();
-
   const [isPending, setIsPending] = useState<boolean>(false);
+  const { register, handleSubmit, setValue, getValues } = useForm({
+    resolver: yupResolver(changePasswordSchema),
+  });
 
-  useEffect(() => {
+  const changePasswordHandler = async ({ newPassword }: any) => {
+    setIsPending(true);
     const e = window.localStorage.getItem("FP_U_Email");
-    setValue("email", e ? JSON.parse(e) : userEmail);
-  }, []);
+    const res = await fetch("/api/auth/change-password", {
+      method: "PATCH",
+      body: JSON.stringify({
+        email: e ? JSON.parse(e) : userEmail,
+        newPassword,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
 
-  const changePasswordHandler = async ({
-    newPassword,
-    confirmPassword,
-  }: any) => {
-    const emptyErr = validation([newPassword], "NOT_EMPTY");
-    const passwordErr = validation(newPassword, "PASSWORD");
-    const notEqualErr =
-      newPassword !== confirmPassword ? "Confirm password incorrect!" : "";
-
-    if (emptyErr || passwordErr || notEqualErr) {
-      notify(emptyErr || passwordErr || notEqualErr, "error");
+    setIsPending(false);
+    const data = await res.json();
+    if (data.error) {
+      notify(data.error, "error");
     } else {
-      setIsPending(true);
-      const res = await fetch("/api/auth/change-password", {
-        method: "PATCH",
-        body: JSON.stringify({
-          email: getValues("email"),
-          newPassword,
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      setIsPending(false);
-      const data = await res.json();
-      if (data.error) {
-        notify(data.error, "error");
-      } else {
-        notify(data.message, "success");
-        router.replace("/login");
-      }
+      notify(data.message, "success");
+      router.replace("/login");
     }
   };
 
   return (
-    <div className={className}>
+    <form
+      onSubmit={handleSubmit(changePasswordHandler, errorHandler)}
+      className={className}
+    >
       <Form
         register={register}
         formClass={`w-full flex flex-col justify-center gap-3 ${
@@ -83,11 +73,10 @@ const ChangePassForm: FC<IProps> = ({
       <Button
         isPending={isPending}
         className="w-full md:w-3/5 my-8 bg-black text-white text-center py-2 rounded-md"
-        onButtonClick={handleSubmit(changePasswordHandler)}
       >
         Change Password
       </Button>
-    </div>
+    </form>
   );
 };
 

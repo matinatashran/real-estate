@@ -2,6 +2,7 @@
 
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 // modules
 import DashboardPagesTitle from "@/module/DashboardPagesTitle";
@@ -11,14 +12,17 @@ import Form from "./Form";
 import RadioList from "./RadioList";
 import TextList from "./TextList";
 import CustomDatePicker from "./CustomDatePicker";
+import errorHandler from "./error";
 
 // element
 import Button from "@/element/Button";
 
 // utils
 import { notify } from "@/utils/notify";
-import { validation } from "@/utils/validation";
 import { rsp } from "@/utils/replaceNumber";
+
+// validation
+import { advertisementSchema } from "./validation/advertisement";
 
 type ApiMehtodType = "POST" | "PATCH";
 interface IFormProps {
@@ -34,40 +38,39 @@ const AdvertisementForm: FC<IFormProps> = ({
   buttonTitle,
   adData,
 }) => {
-  const { handleSubmit, register, setValue, reset, getValues, watch, control } =
-    useForm();
   const [isPending, setIsPending] = useState<boolean>(false);
+
+  const { handleSubmit, register, setValue, reset, getValues, watch, control } =
+    useForm({
+      defaultValues: {
+        title: "",
+        description: "",
+        address: "",
+        phone: "",
+        price: 0,
+        companyName: "",
+        constructionDate: "",
+        welfareAmenities: [],
+        rules: [],
+        category: "",
+        adType: "",
+        tagTitle: "",
+        tagDescription: "",
+        author: "",
+      },
+      resolver: yupResolver(advertisementSchema),
+    });
 
   useEffect(() => {
     if (adData) {
-      Object.keys(adData).map((key) => {
-        if (!["_id", "__v"].includes(key)) {
-          setValue(key, adData[key]);
-        }
+      const nameList = Object.keys(advertisementSchema.fields);
+      nameList.map((item) => {
+        setValue(item, adData[item]);
       });
     }
   }, [adData]);
 
   const submitHandler = async (fieldData: any) => {
-    const emptyErr = validation(
-      [
-        fieldData.title,
-        fieldData.description,
-        fieldData.address,
-        fieldData.phone,
-        fieldData.price,
-        fieldData.companyName,
-        fieldData.category,
-        fieldData.adType,
-        fieldData.constructionDate,
-      ],
-      "NOT_EMPTY"
-    );
-
-    if (emptyErr) {
-      return notify(emptyErr, "error");
-    }
-
     setIsPending(true);
     const res = await fetch("/api/profile", {
       method: apiMethod,
@@ -93,7 +96,10 @@ const AdvertisementForm: FC<IFormProps> = ({
   };
 
   return (
-    <div className="w-[80%] h-full mx-auto flex flex-col items-center gap-10 mb-20">
+    <form
+      onSubmit={handleSubmit(submitHandler, errorHandler)}
+      className="w-[80%] h-full mx-auto flex flex-col items-center gap-10 mb-20"
+    >
       <DashboardPagesTitle title={pageTitle} />
       <Form
         register={register}
@@ -104,7 +110,7 @@ const AdvertisementForm: FC<IFormProps> = ({
           { name: "description", type: "textArea", label: "Description" },
           { name: "address", label: "Address" },
           { name: "phone", type: "numeric", label: "Phone" },
-          { name: "price", type: "numeric", label: "Price", sp: true },
+          { name: "price", type: "numeric", label: "Price", separator: true },
           { name: "companyName", label: "Company Name" },
         ]}
       />
@@ -162,11 +168,10 @@ const AdvertisementForm: FC<IFormProps> = ({
       <Button
         className="bg-black w-1/2 text-white py-1.5 rounded-md"
         isPending={isPending}
-        onButtonClick={handleSubmit(submitHandler)}
       >
         {buttonTitle}
       </Button>
-    </div>
+    </form>
   );
 };
 
