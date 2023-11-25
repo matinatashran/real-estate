@@ -31,6 +31,12 @@
       "@/models/*": [
         "src/models/*"
       ],
+      "@/middleware/*": [
+        "src/middleware/*"
+      ],
+      "@/validation-schema/*": [
+        "src/validation-schema/*"
+      ],
       "@/providers/*": [
         "src/providers/*"
       ],

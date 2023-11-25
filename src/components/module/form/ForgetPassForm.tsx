@@ -3,6 +3,7 @@
 import { Dispatch, SetStateAction, useState, FC } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { InferType } from "yup";
 
 // element
 import Button from "@/element/Button";
@@ -10,10 +11,18 @@ import Button from "@/element/Button";
 // .
 import Timer from "./Timer";
 import errorHandler from "./error";
-import { emailFormSchema, verifyFormSchema } from "./validation/authForm";
+
+// validation-schema
+import {
+  emailFormSchema,
+  verifyFormSchema,
+} from "@/validation-schema/authForm";
 
 // utils
 import { notify } from "@/utils/notify";
+
+type emailFormType = InferType<typeof emailFormSchema>;
+type verifyFormType = InferType<typeof verifyFormSchema>;
 
 interface IProps {
   setIsVerify: Dispatch<SetStateAction<boolean>>;
@@ -29,7 +38,7 @@ const ForgetPassForm: FC<IProps> = ({ setIsVerify }) => {
   const emailForm = useForm({ resolver: yupResolver(emailFormSchema) });
   const verifyForm = useForm({ resolver: yupResolver(verifyFormSchema) });
 
-  const sendPasswordHandler = async ({ email }: any) => {
+  const sendPasswordHandler = async ({ email }: emailFormType) => {
     setIsPending(true);
     const res = await fetch("/api/auth/send-password", {
       method: "POST",
@@ -54,7 +63,7 @@ const ForgetPassForm: FC<IProps> = ({ setIsVerify }) => {
     }
   };
 
-  const verifyCodeHandler = async ({ verifyCode }: any) => {
+  const verifyCodeHandler = async ({ verifyCode }: verifyFormType) => {
     if (OTPCode === verifyCode) {
       setIsVerify(true);
     } else {

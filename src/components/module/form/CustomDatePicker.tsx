@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Control, Controller, FieldValues } from "react-hook-form";
-import DatePicker from "react-multi-date-picker";
+import DatePicker, { DateObject } from "react-multi-date-picker";
 
 interface IDatePickerProps {
   name: string;
@@ -20,7 +20,7 @@ const CustomDatePicker: FC<IDatePickerProps> = ({ name, control }) => {
           return (
             <DatePicker
               value={field.value || null}
-              onChange={(date) =>
+              onChange={(date: DateObject) =>
                 field.onChange(
                   date ? new Date(date.toString()).toISOString() : null
                 )

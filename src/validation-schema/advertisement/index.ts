@@ -7,7 +7,7 @@ export const advertisementSchema = yup.object({
   description: yp("Description"),
   address: yp("Address"),
   phone: yp("Phone"),
-  price: yup.number(),
+  price: yp("price"),
   companyName: yp("Company name"),
   constructionDate: yp("Construction date"),
   welfareAmenities: yup.array(),
@@ -18,3 +18,4 @@ export const advertisementSchema = yup.object({
   tagDescription: yup.string().nullable(),
   author: yup.string().nullable(),
 });
+

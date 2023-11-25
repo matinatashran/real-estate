@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, FC } from "react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { InferType } from "yup";
 
 import { HiUser } from "react-icons/hi2";
 import { FiLogOut } from "react-icons/fi";
@@ -18,16 +19,18 @@ import Button from "@/element/Button";
 import Form from "@/module/form/Form";
 import ChangePassForm from "@/module/form/ChangePassForm";
 import errorHandler from "@/module/form/error";
-import { editUserSchema } from "@/module/form/validation/authForm";
 
+// validation-schema
+import { editUserSchema } from "@/validation-schema/authForm";
+
+type FormType = InferType<typeof editUserSchema>;
 interface IProps {
-  data: {
-    email: string;
-    firstname: string;
-    lastname: string;
-  };
+  data: FormType;
 }
+
 const DashboardPage: FC<IProps> = ({ data }) => {
+  const session = useSession();
+
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isChangePass, setIsChangePass] = useState<boolean>(false);
   const { register, setValue, getValues, handleSubmit, watch } = useForm({
@@ -38,20 +41,18 @@ const DashboardPage: FC<IProps> = ({ data }) => {
 
   useEffect(() => {
     if (Object.keys(data).length) {
-      setValue("email", data.email);
       setValue("firstname", data.firstname);
       setValue("lastname", data.lastname);
     }
   }, [data]);
 
-  const editUserHandler = async ({ email, firstname, lastname }: any) => {
+  const editUserHandler = async ({ firstname, lastname }: FormType) => {
     setIsPending(true);
     const res = await fetch("/api/edit-user", {
       method: "PATCH",
       body: JSON.stringify({
         firstname,
         lastname,
-        email,
       }),
       headers: { "Content-Type": "application/json" },
     });
@@ -82,19 +83,23 @@ const DashboardPage: FC<IProps> = ({ data }) => {
             <h2 className="text-2xl md:text-3xl font-bold">
               {getValues("firstname")} {getValues("lastname")}
             </h2>
-            <span className="text-sm md:text-base">{getValues("email")}</span>
+            <span className="text-sm md:text-base">
+              {session?.data?.user?.email}
+            </span>
           </div>
         </div>
       </div>
       <div className="w-full lg:w-[80%] bg-white rounded-2xl py-8 px-5 flex flex-col items-center">
-        <form onSubmit={handleSubmit(editUserHandler, errorHandler)}>
+        <form
+          className="w-full flex flex-col items-center"
+          onSubmit={handleSubmit(editUserHandler, errorHandler)}
+        >
           <Form
             register={register}
             formClass="w-full flex flex-col items-center justify-center gap-6"
             fieldList={[
               { name: "firstname", placeholder: "Firstname (Optional)" },
               { name: "lastname", placeholder: "Lastname (Optional)" },
-              { name: "email", placeholder: "Email" },
             ]}
           />
           <Button
@@ -105,7 +110,7 @@ const DashboardPage: FC<IProps> = ({ data }) => {
           </Button>
         </form>
         <hr className="w-full mb-3" />
-        <div className="w-full">
+        <div className="w-full mb-3">
           <span
             onClick={() => setIsChangePass(!isChangePass)}
             className="text-sm cursor-pointer text-blue-500"
@@ -116,6 +121,7 @@ const DashboardPage: FC<IProps> = ({ data }) => {
         {isChangePass ? (
           <ChangePassForm
             formJustify="center"
+            userEmail={session?.data?.user?.email}
             className="w-full flex flex-col items-center"
           />
         ) : null}

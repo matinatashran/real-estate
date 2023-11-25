@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 // models
 import User from "@/models/User";
@@ -6,23 +6,17 @@ import User from "@/models/User";
 // utils
 import connectDB from "@/utils/connectDB";
 import { hashPassword } from "@/utils/auth";
-import { validation } from "@/utils/validation";
 
-export async function POST(req: NextRequest) {
+// middleware
+import validate from "@/middleware/validate";
+
+// validation-schema
+import { registerSchema } from "@/validation-schema/authForm";
+
+async function post(body: any) {
   try {
     await connectDB();
-
-    const { email, password, firstname, lastname } = await req.json();
-    const emptyErr = validation([email, password], "NOT_EMPTY");
-    const emailErr = validation(email, "EMAIL");
-    const passwordErr = validation(password, "PASSWORD");
-
-    if (emptyErr || emailErr || passwordErr) {
-      return NextResponse.json(
-        { error: emptyErr || emailErr || passwordErr },
-        { status: 422 }
-      );
-    }
+    const { email, password, firstname, lastname } = body;
 
     const user = await User.findOne({ email });
     if (user) {
@@ -52,3 +46,5 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export const POST = validate(registerSchema, post);

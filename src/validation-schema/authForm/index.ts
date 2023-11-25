@@ -28,17 +28,34 @@ export const registerSchema = yup.object({
 
 // ###########################
 
+// => Used in client
 export const changePasswordSchema = yup.object({
   newPassword: yup
     .string()
-    .required("Password is required!")
+    .required("New Password is required!")
     .min(6)
     .max(15)
     .trim(),
   confirmPassword: yup
     .string()
     .required("Confirm password is required!")
-    .oneOf([yup.ref("newPassword")], "Confirm password incorrect!"),
+    .oneOf([yup.ref("newPassword")], "Confirm password incorrect!")
+    .trim(),
+});
+
+// => Used in server
+export const svChangePasswordSchema = yup.object({
+  email: yup
+    .string()
+    .required("Email is required!")
+    .email("Email must be valid format!")
+    .trim(),
+  newPassword: yup
+    .string()
+    .required("New Password is required!")
+    .min(6)
+    .max(15)
+    .trim(),
 });
 
 // ###########################
@@ -46,11 +63,6 @@ export const changePasswordSchema = yup.object({
 export const editUserSchema = yup.object({
   firstname: yup.string().nullable(),
   lastname: yup.string().nullable(),
-  email: yup
-    .string()
-    .required("Email is required!")
-    .email("Email must be valid format!")
-    .trim(),
 });
 
 // ###########################

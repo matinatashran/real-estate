@@ -10,7 +10,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 // module
 import Form from "@/module/form/Form";
 import errorHandler from "@/module/form/error";
-import { loginSchema } from "@/module/form/validation/authForm";
+
+// validation-schema
+import { loginSchema } from "@/validation-schema/authForm";
 
 // element
 import Button from "@/element/Button";

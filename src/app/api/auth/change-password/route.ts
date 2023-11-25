@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 // models
 import User from "@/models/User";
@@ -8,11 +8,17 @@ import { validation } from "@/utils/validation";
 import connectDB from "@/utils/connectDB";
 import { hashPassword } from "@/utils/auth";
 
-export async function PATCH(req: NextRequest) {
+// middleware
+import validate from "@/middleware/validate";
+
+// validation-schema
+import { svChangePasswordSchema } from "@/validation-schema/authForm";
+
+async function patch(body: any) {
   try {
     await connectDB();
 
-    const { email, newPassword } = await req.json();
+    const { email, newPassword } = body;
     const emptyErr = validation([email], "NOT_EMPTY");
     const emailErr = validation(email, "EMAIL");
     if (emptyErr || emailErr) {
@@ -43,3 +49,5 @@ export async function PATCH(req: NextRequest) {
     );
   }
 }
+
+export const PATCH = validate(svChangePasswordSchema, patch);

@@ -1,14 +1,20 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { Types } from "mongoose";
 
 // utils
 import connectDB from "@/utils/connectDB";
-import { validation } from "@/utils/validation";
+import { rsp } from "@/utils/replaceNumber";
 
 // models
 import User from "@/models/User";
 import Profile from "@/models/Profile";
+
+// middleware
+import validate from "@/middleware/validate";
+
+// validation-schema
+import { advertisementSchema } from "@/validation-schema/advertisement";
 
 export async function GET() {
   try {
@@ -26,7 +32,7 @@ export async function GET() {
   }
 }
 
-export async function POST(req: NextRequest) {
+async function post(body: any) {
   try {
     await connectDB();
 
@@ -42,47 +48,12 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
-
-    const body = await req.json();
-    const {
-      title,
-      description,
-      address,
-      phone,
-      price,
-      companyName,
-      category,
-      adType,
-      constructionDate,
-      tagTitle,
-      tagDescription,
-      author,
-    } = body;
-
-    const emptyErr = validation(
-      [
-        title,
-        description,
-        address,
-        phone,
-        price,
-        companyName,
-        category,
-        adType,
-      ],
-      "NOT_EMPTY"
-    );
-
-    if (emptyErr || !constructionDate) {
-      return NextResponse.json(
-        { error: emptyErr || "Invalid data! Please fill each fields." },
-        { status: 422 }
-      );
-    }
-
+    const { tagTitle, tagDescription, description, author, title, price } =
+      body;
     delete body["_id"];
     await Profile.create({
       ...body,
+      price: +rsp(price),
       tagTitle: tagTitle || title,
       tagDescription: tagDescription || description,
       author: author || `${user.firstname} ${user.lastname}` || user.email,
@@ -103,7 +74,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function PATCH(req: NextRequest) {
+async function patch(body: any) {
   try {
     await connectDB();
 
@@ -120,44 +91,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const {
-      _id,
-      title,
-      description,
-      address,
-      phone,
-      price,
-      companyName,
-      category,
-      adType,
-      welfareAmenities,
-      rules,
-      constructionDate,
-    } = await req.json();
-
-    const emptyErr = validation(
-      [
-        _id,
-        title,
-        description,
-        address,
-        phone,
-        price,
-        companyName,
-        category,
-        adType,
-      ],
-      "NOT_EMPTY"
-    );
-
-    if (emptyErr || !constructionDate) {
-      return NextResponse.json(
-        { error: emptyErr || "Invalid data! Please fill each fields." },
-        { status: 422 }
-      );
-    }
-
-    const profile = await Profile.findOne({ _id });
+    const profile = await Profile.findOne({ _id: body._id });
     if (!user._id.equals(profile.userId)) {
       return NextResponse.json(
         { error: "You can not access to this advertisement!" },
@@ -165,17 +99,17 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    profile.title = title;
-    profile.description = description;
-    profile.address = address;
-    profile.phone = phone;
-    profile.price = price;
-    profile.companyName = companyName;
-    profile.category = category;
-    profile.adType = adType;
-    profile.welfareAmenities = welfareAmenities;
-    profile.rules = rules;
-    profile.constructionDate = constructionDate;
+    profile.title = body.title;
+    profile.description = body.description;
+    profile.address = body.address;
+    profile.phone = body.phone;
+    profile.price = body.price;
+    profile.companyName = body.companyName;
+    profile.category = body.category;
+    profile.adType = body.adType;
+    profile.welfareAmenities = body.welfareAmenities;
+    profile.rules = body.rules;
+    profile.constructionDate = body.constructionDate;
     profile.save();
 
     return NextResponse.json(
@@ -190,3 +124,6 @@ export async function PATCH(req: NextRequest) {
     );
   }
 }
+
+export const POST = validate(advertisementSchema, post);
+export const PATCH = validate(advertisementSchema, patch);

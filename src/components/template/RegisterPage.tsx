@@ -7,7 +7,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 // module
 import Form from "@/module/form/Form";
-import { registerSchema } from "@/module/form/validation/authForm";
+
+// validation-schema
+import { registerSchema } from "@/validation-schema/authForm";
 
 // element
 import Button from "@/element/Button";

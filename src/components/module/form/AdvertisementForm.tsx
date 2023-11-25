@@ -3,6 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { InferType } from "yup";
 
 // modules
 import DashboardPagesTitle from "@/module/DashboardPagesTitle";
@@ -19,10 +20,11 @@ import Button from "@/element/Button";
 
 // utils
 import { notify } from "@/utils/notify";
-import { rsp } from "@/utils/replaceNumber";
 
-// validation
-import { advertisementSchema } from "./validation/advertisement";
+// validation-schema
+import { advertisementSchema } from "@/validation-schema/advertisement";
+
+type FormType = InferType<typeof advertisementSchema>;
 
 type ApiMehtodType = "POST" | "PATCH";
 interface IFormProps {
@@ -40,26 +42,8 @@ const AdvertisementForm: FC<IFormProps> = ({
 }) => {
   const [isPending, setIsPending] = useState<boolean>(false);
 
-  const { handleSubmit, register, setValue, reset, getValues, watch, control } =
-    useForm({
-      defaultValues: {
-        title: "",
-        description: "",
-        address: "",
-        phone: "",
-        price: 0,
-        companyName: "",
-        constructionDate: "",
-        welfareAmenities: [],
-        rules: [],
-        category: "",
-        adType: "",
-        tagTitle: "",
-        tagDescription: "",
-        author: "",
-      },
-      resolver: yupResolver(advertisementSchema),
-    });
+  const { handleSubmit, register, setValue, reset, watch, control } =
+    useForm<FormType>({ resolver: yupResolver(advertisementSchema) });
 
   useEffect(() => {
     if (adData) {
@@ -70,14 +54,13 @@ const AdvertisementForm: FC<IFormProps> = ({
     }
   }, [adData]);
 
-  const submitHandler = async (fieldData: any) => {
+  const submitHandler = async (fieldData: FormType) => {
     setIsPending(true);
     const res = await fetch("/api/profile", {
       method: apiMethod,
       body: JSON.stringify({
         _id: adData ? adData._id : null,
-        ...getValues(),
-        price: +rsp(fieldData.price),
+        ...fieldData,
       }),
       headers: { "Content-Type": "application/json" },
     });

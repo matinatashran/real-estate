@@ -6,9 +6,14 @@ import User from "@/models/User";
 
 // utils
 import connectDB from "@/utils/connectDB";
-import { validation } from "@/utils/validation";
 
-export async function PATCH(req: NextRequest) {
+// middleware
+import validate from "@/middleware/validate";
+
+// validation-schema
+import { editUserSchema } from "@/validation-schema/authForm";
+
+async function patch(req: NextRequest) {
   try {
     await connectDB();
     const { firstname, lastname, email } = await req.json();
@@ -23,16 +28,6 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json(
         { error: "User doesn't exist!" },
         { status: 404 }
-      );
-    }
-
-    const emptyErr = validation([email], "NOT_EMPTY");
-    const eamilErr = validation(email, "EMAIL");
-
-    if (emptyErr || eamilErr) {
-      return NextResponse.json(
-        { error: emptyErr || eamilErr },
-        { status: 422 }
       );
     }
 
@@ -53,3 +48,5 @@ export async function PATCH(req: NextRequest) {
     );
   }
 }
+
+export const PATCH = validate(editUserSchema, patch);

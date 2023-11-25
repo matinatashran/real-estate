@@ -4,6 +4,7 @@ import { FC, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { InferType } from "yup";
 
 // element
 import Button from "@/element/Button";
@@ -14,12 +15,16 @@ import { notify } from "@/utils/notify";
 // .
 import Form from "./Form";
 import errorHandler from "./error";
-import { changePasswordSchema } from "./validation/authForm";
+
+// validation-schema
+import { changePasswordSchema } from "@/validation-schema/authForm";
+
+type FormType = InferType<typeof changePasswordSchema>;
 
 interface IProps {
-  className?: string | undefined;
-  userEmail?: string | undefined;
-  formJustify?: "left" | "center" | undefined;
+  className?: string;
+  userEmail?: string;
+  formJustify?: "left" | "center";
 }
 
 const ChangePassForm: FC<IProps> = ({
@@ -29,11 +34,11 @@ const ChangePassForm: FC<IProps> = ({
 }) => {
   const router = useRouter();
   const [isPending, setIsPending] = useState<boolean>(false);
-  const { register, handleSubmit, setValue, getValues } = useForm({
+  const { register, handleSubmit } = useForm<FormType>({
     resolver: yupResolver(changePasswordSchema),
   });
 
-  const changePasswordHandler = async ({ newPassword }: any) => {
+  const changePasswordHandler = async ({ newPassword }: FormType) => {
     setIsPending(true);
     const e = window.localStorage.getItem("FP_U_Email");
     const res = await fetch("/api/auth/change-password", {
@@ -51,7 +56,7 @@ const ChangePassForm: FC<IProps> = ({
       notify(data.error, "error");
     } else {
       notify(data.message, "success");
-      router.replace("/login");
+      if (!userEmail) router.replace("/login");
     }
   };
 
@@ -66,8 +71,16 @@ const ChangePassForm: FC<IProps> = ({
           formJustify === "left" ? "items-start" : "items-center"
         }`}
         fieldList={[
-          { name: "newPassword", placeholder: "New Password" },
-          { name: "confirmPassword", placeholder: "Confirm Password" },
+          {
+            name: "newPassword",
+            type: "password",
+            placeholder: "New Password",
+          },
+          {
+            name: "confirmPassword",
+            type: "password",
+            placeholder: "Confirm Password",
+          },
         ]}
       />
       <Button

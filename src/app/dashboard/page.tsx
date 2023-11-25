@@ -17,7 +17,6 @@ const Dashboard = async () => {
   const user = await User.findOne({ email: session?.user?.email }).select([
     "firstname",
     "lastname",
-    "email",
   ]);
 
   return <DashboardPage data={user} />;

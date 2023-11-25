@@ -1,29 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 // models
 import User from "@/models/User";
 
 // utils
-import { validation } from "@/utils/validation";
 import connectDB from "@/utils/connectDB";
 
 // .
 import getMailData from "./nodemailer";
 import VerifyComponent from "./verify-component";
 
-export async function POST(req: NextRequest) {
+// middleware
+import validate from "@/middleware/validate";
+
+// validation-schema
+import { emailFormSchema } from "@/validation-schema/authForm";
+
+async function post(body: any) {
   try {
     await connectDB();
 
-    const { email } = await req.json();
-    const emptyErr = validation([email], "NOT_EMPTY");
-    const emailErr = validation(email, "EMAIL");
-    if (emptyErr || emailErr) {
-      return NextResponse.json(
-        { error: emptyErr || emailErr },
-        { status: 422 }
-      );
-    }
+    const { email } = body;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -49,3 +46,5 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export const POST = validate(emailFormSchema, post);
