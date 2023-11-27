@@ -9,7 +9,9 @@ import "@/styles/swiper.style.css";
 
 // module
 import AdCard from "../cards/AdCard";
-import SwiperNavigationButton from "./SwiperNavigationButton";
+
+// element
+import SwiperNavigationButton from "@/element/SwiperNavigationButton";
 
 interface IProps {
   data: any[];

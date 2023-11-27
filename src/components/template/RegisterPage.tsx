@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FieldError, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { InferType } from "yup";
 
 // module
 import Form from "@/module/form/Form";
+import errorHandler from "@/module/form/error";
 
 // validation-schema
 import { registerSchema } from "@/validation-schema/authForm";
@@ -17,6 +19,8 @@ import Button from "@/element/Button";
 // utils
 import { notify } from "@/utils/notify";
 
+type FormType = InferType<typeof registerSchema>;
+
 const RegisterPage = () => {
   const router = useRouter();
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -24,16 +28,12 @@ const RegisterPage = () => {
     resolver: yupResolver(registerSchema),
   });
 
-  const errorHandler = (error: FieldError) => {
-    notify(Object.values(error)[0]["message"], "error");
-  };
-
   const registerHandler = async ({
     email,
     password,
     firstname,
     lastname,
-  }: any) => {
+  }: FormType) => {
     setIsPending(true);
     const res = await fetch("/api/auth/register", {
       method: "POST",
